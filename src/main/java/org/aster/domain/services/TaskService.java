@@ -1,5 +1,6 @@
 package org.aster.domain.services;
 
+import jakarta.ws.rs.BadRequestException;
 import org.aster.application.dtos.TaskDTO;
 import org.aster.domain.mapper.TaskMapper;
 import org.aster.domain.models.TaskModel;
@@ -8,27 +9,31 @@ import org.aster.infra.repositories.TaskRepository;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import org.mapstruct.ap.shaded.freemarker.template.utility.NullArgumentException;
+
+import java.util.Objects;
 
 @RequestScoped
 public class TaskService {
     @Inject
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
     public TaskModel createTask(TaskDTO taskDTO) {
-       try {
-        Task taskEntity = new Task();
+        validateTaskDTO(taskDTO);
 
-        if (taskDTO.getType() == null || taskDTO.getName() == null || taskDTO.getDescription() == null) {
-            throw new NullArgumentException("Error, fields are not provided.");
-        }
+        Task taskEntity = new Task();
         taskEntity.setName(taskDTO.getName());
         taskEntity.setDescription(taskDTO.getDescription());
         taskEntity.setType(taskDTO.getType());
 
-        return TaskMapper.INSTANCE.taskEntityToModel(this.taskRepository.save(taskEntity));
-       } catch(Exception errorException) {
-        throw new Error(errorException);
-       }
+        Task savedTask = taskRepository.save(taskEntity);
+        return TaskMapper.INSTANCE.taskEntityToModel(savedTask);
+    }
+
+    private void validateTaskDTO(TaskDTO taskDTO) {
+        if (Objects.isNull(taskDTO) || Objects.isNull(taskDTO.getType()) ||
+                Objects.isNull(taskDTO.getName()) || Objects.isNull(taskDTO.getDescription())) {
+            throw new BadRequestException("Error: Missing required fields of Tasks.");
+        }
     }
 }
+
