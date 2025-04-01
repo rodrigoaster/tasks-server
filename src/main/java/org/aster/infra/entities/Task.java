@@ -3,6 +3,7 @@ package org.aster.infra.entities;
 import java.time.LocalDateTime;
 
 import org.aster.application.enums.TaskStatus;
+import org.aster.application.enums.TaskType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -26,6 +27,9 @@ public class Task extends PanacheEntity {
 
     @Column(name = "status")
     private TaskStatus status = TaskStatus.CREATED;
+
+    @Column(name = "type")
+    private TaskType type;
 
     @Column(name = "created_at")
     @CreationTimestamp

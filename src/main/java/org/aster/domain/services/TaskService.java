@@ -8,6 +8,7 @@ import org.aster.infra.repositories.TaskRepository;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import org.mapstruct.ap.shaded.freemarker.template.utility.NullArgumentException;
 
 @RequestScoped
 public class TaskService {
@@ -17,8 +18,13 @@ public class TaskService {
     public TaskModel createTask(TaskDTO taskDTO) {
        try {
         Task taskEntity = new Task();
+
+        if (taskDTO.getType() == null || taskDTO.getName() == null || taskDTO.getDescription() == null) {
+            throw new NullArgumentException("Error, fields are not provided.");
+        }
         taskEntity.setName(taskDTO.getName());
         taskEntity.setDescription(taskDTO.getDescription());
+        taskEntity.setType(taskDTO.getType());
 
         return TaskMapper.INSTANCE.taskEntityToModel(this.taskRepository.save(taskEntity));
        } catch(Exception errorException) {
