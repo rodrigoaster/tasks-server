@@ -35,7 +35,7 @@ public class TaskServiceTest {
     @Test
     void shouldBeCreateTask() {
         Task taskMock = EntityFactoryUtil.createTaskEntity();
-        when(taskRepository.save(any(Task.class))).thenReturn(taskMock);
+        when(taskRepository.save(taskMock)).thenReturn(taskMock);
 
         TaskModel taskModelMock = ModelFactoryUtil.createTaskModel();
         TaskDTO taskDTOMock = DTOFactoryUtil.createTaskDTOEntity();
@@ -44,5 +44,6 @@ public class TaskServiceTest {
 
         assertEquals(taskModelMock.getName(), result.getName());
         assertEquals(taskModelMock.getDescription(), result.getDescription());
+        assertEquals(taskModelMock.getType(), result.getType());
     }
 }
