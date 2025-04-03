@@ -1,8 +1,8 @@
-package org.aster.application.controllers;
+package org.aster.controllers;
 
-import org.aster.application.dtos.TaskDTO;
-import org.aster.domain.models.TaskModel;
-import org.aster.domain.services.TaskService;
+import org.aster.dtos.TaskDTO;
+import org.aster.entities.Task;
+import org.aster.services.TaskService;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -20,7 +20,7 @@ public class TaskController {
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public TaskModel createTask(TaskDTO taskDTO) {
+    public Task createTask(TaskDTO taskDTO) {
         return taskService.createTask(taskDTO);
     }
 }

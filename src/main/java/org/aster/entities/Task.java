@@ -1,15 +1,17 @@
-package org.aster.infra.entities;
+package org.aster.entities;
 
 import java.time.LocalDateTime;
 
-import org.aster.application.enums.TaskStatus;
-import org.aster.application.enums.TaskType;
+import org.aster.enums.TaskStatus;
+import org.aster.enums.TaskType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,4 +40,8 @@ public class Task extends PanacheEntity {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

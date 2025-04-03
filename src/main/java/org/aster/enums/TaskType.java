@@ -1,4 +1,4 @@
-package org.aster.application.enums;
+package org.aster.enums;
 
 public enum TaskType {
     STUDY,

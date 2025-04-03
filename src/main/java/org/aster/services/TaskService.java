@@ -1,11 +1,11 @@
-package org.aster.domain.services;
+package org.aster.services;
 
 import jakarta.ws.rs.BadRequestException;
-import org.aster.application.dtos.TaskDTO;
-import org.aster.domain.mapper.TaskMapper;
-import org.aster.domain.models.TaskModel;
-import org.aster.infra.entities.Task;
-import org.aster.infra.repositories.TaskRepository;
+
+import org.aster.dtos.TaskDTO;
+import org.aster.entities.Task;
+import org.aster.entities.User;
+import org.aster.repositories.TaskRepository;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -15,18 +15,23 @@ import java.util.Objects;
 @RequestScoped
 public class TaskService {
     @Inject
-    private TaskRepository taskRepository;
+    TaskRepository taskRepository;
 
-    public TaskModel createTask(TaskDTO taskDTO) {
+    @Inject
+    UserService userService;
+
+    public Task createTask(TaskDTO taskDTO) {
         validateTaskDTO(taskDTO);
+
+        User user = userService.getUserById(taskDTO.getUserId());
 
         Task taskEntity = new Task();
         taskEntity.setName(taskDTO.getName());
         taskEntity.setDescription(taskDTO.getDescription());
         taskEntity.setType(taskDTO.getType());
+        taskEntity.setUser(user);
 
-        Task savedTask = taskRepository.save(taskEntity);
-        return TaskMapper.INSTANCE.taskEntityToModel(savedTask);
+        return taskRepository.save(taskEntity);
     }
 
     private void validateTaskDTO(TaskDTO taskDTO) {

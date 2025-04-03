@@ -1,7 +1,8 @@
-package org.aster.mocks.factory;
+package org.aster.mocks;
 
-import org.aster.application.enums.TaskType;
-import org.aster.infra.entities.Task;
+import org.aster.entities.Task;
+import org.aster.entities.User;
+import org.aster.enums.TaskType;
 
 public class EntityFactoryUtil {
     private static final String NAME_MOCK = "Fulano de Tal";
@@ -14,6 +15,7 @@ public class EntityFactoryUtil {
         taskMock.setName(NAME_MOCK);
         taskMock.setDescription(DESC_MOCK);
         taskMock.setType(TASK_TYPE);
+        taskMock.setUser(new User());
         return taskMock;
     }
 }

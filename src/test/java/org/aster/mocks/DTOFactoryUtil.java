@@ -1,7 +1,7 @@
-package org.aster.mocks.factory;
+package org.aster.mocks;
 
-import org.aster.application.dtos.TaskDTO;
-import org.aster.application.enums.TaskType;
+import org.aster.dtos.TaskDTO;
+import org.aster.enums.TaskType;
 
 public class DTOFactoryUtil {
     private static final String NAME_MOCK = "Fulano de Tal";
