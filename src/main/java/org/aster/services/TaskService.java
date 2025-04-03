@@ -3,8 +3,8 @@ package org.aster.services;
 import jakarta.ws.rs.BadRequestException;
 
 import org.aster.dtos.TaskDTO;
-import org.aster.entities.Task;
-import org.aster.entities.User;
+import org.aster.models.Task;
+import org.aster.models.User;
 import org.aster.repositories.TaskRepository;
 
 import jakarta.enterprise.context.RequestScoped;

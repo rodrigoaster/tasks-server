@@ -1,8 +1,8 @@
 package org.aster.mocks;
 
-import org.aster.entities.Task;
-import org.aster.entities.User;
 import org.aster.enums.TaskType;
+import org.aster.models.Task;
+import org.aster.models.User;
 
 public class EntityFactoryUtil {
     private static final String NAME_MOCK = "Fulano de Tal";

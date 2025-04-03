@@ -1,4 +1,4 @@
-package org.aster.entities;
+package org.aster.models;
 
 import java.time.LocalDateTime;
 

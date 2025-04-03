@@ -4,7 +4,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 
 import org.aster.dtos.UserDTO;
-import org.aster.entities.User;
+import org.aster.models.User;
 import org.aster.repositories.UserRepository;
 
 @RequestScoped

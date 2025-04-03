@@ -1,6 +1,6 @@
 package org.aster.repositories;
 
-import org.aster.entities.Task;
+import org.aster.models.Task;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 

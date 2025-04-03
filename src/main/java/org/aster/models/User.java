@@ -1,4 +1,4 @@
-package org.aster.entities;
+package org.aster.models;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.CascadeType;

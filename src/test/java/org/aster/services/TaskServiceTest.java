@@ -3,9 +3,9 @@ package org.aster.services;
 import jakarta.ws.rs.BadRequestException;
 
 import org.aster.dtos.TaskDTO;
-import org.aster.entities.Task;
 import org.aster.mocks.DTOFactoryUtil;
 import org.aster.mocks.EntityFactoryUtil;
+import org.aster.models.Task;
 import org.aster.repositories.TaskRepository;
 import org.aster.services.TaskService;
 import org.gradle.internal.impldep.org.apache.commons.lang.NullArgumentException;

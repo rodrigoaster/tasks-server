@@ -1,7 +1,7 @@
 package org.aster.repositories;
 
 
-import org.aster.entities.User;
+import org.aster.models.User;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;

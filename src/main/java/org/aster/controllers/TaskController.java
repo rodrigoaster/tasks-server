@@ -1,7 +1,7 @@
 package org.aster.controllers;
 
 import org.aster.dtos.TaskDTO;
-import org.aster.entities.Task;
+import org.aster.models.Task;
 import org.aster.services.TaskService;
 
 import jakarta.inject.Inject;

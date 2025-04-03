@@ -10,7 +10,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 import org.aster.dtos.UserDTO;
-import org.aster.entities.User;
+import org.aster.models.User;
 import org.aster.services.UserService;
 
 
