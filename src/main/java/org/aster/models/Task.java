@@ -1,39 +1,41 @@
 package org.aster.models;
 
-import java.time.LocalDateTime;
-
-import org.aster.enums.TaskStatus;
-import org.aster.enums.TaskType;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.*;
+import lombok.*;
+import org.aster.enums.TaskStatusEnum;
+import org.aster.enums.TaskTypeEnum;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "task")
 public class Task extends PanacheEntity {
+
+    @NonNull
     @Column(name = "name")
     private String name;
 
+    @NonNull
     @Column(name = "description")
     private String description;
 
     @Column(name = "status")
-    private TaskStatus status = TaskStatus.CREATED;
+    private TaskStatusEnum status = TaskStatusEnum.CREATED;
 
+    @NonNull
     @Column(name = "type")
-    private TaskType type;
+    private TaskTypeEnum type;
 
-    @Column(name = "created_at")
+    @Enumerated(EnumType.STRING)
+    private DayOfWeek day;
+
+    @Column(name = "created_at", updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
 

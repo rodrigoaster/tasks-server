@@ -1,6 +1,6 @@
 package org.aster.enums;
 
-public enum TaskStatus {
+public enum TaskStatusEnum {
     CREATED,
     PENDING,       
     IN_PROGRESS,   
