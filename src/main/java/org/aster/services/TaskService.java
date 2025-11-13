@@ -9,4 +9,5 @@ public interface TaskService {
     void createTask(TaskDTO taskDTO);
     List<Task> findAllTasks();
     List<Task> findTasksByDayWeek(String dayWeek);
+    void updateTaskStatus(Long id, String newStatus);
 }
