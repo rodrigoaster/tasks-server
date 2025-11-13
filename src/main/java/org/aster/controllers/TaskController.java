@@ -48,4 +48,22 @@ public class TaskController {
     public Response getTaskByDayWeek(@QueryParam("day") String day) {
         return Response.ok(taskService.findTasksByDayWeek(day)).build();
     }
+
+    @PUT
+    @Path("/updateTaskStatus")
+    public Response updateTaskStatus(@QueryParam("id") Long id, @QueryParam("newStatus") String newStatus) {
+        try {
+            taskService.updateTaskStatus(id, newStatus);
+
+            String message = "Task status has been updated!";
+            return Response.status(Response.Status.OK)
+                    .entity(Collections.singletonMap("result", message))
+                    .build();
+        } catch (Exception e) {
+            String errorMessage = String.format("An error occurred while updating the task: %s", e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Collections.singletonMap("error", errorMessage))
+                    .build();
+        }
+    }
 }
