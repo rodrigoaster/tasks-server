@@ -2,6 +2,7 @@ package org.aster.controllers;
 
 import jakarta.ws.rs.*;
 import org.aster.dtos.TaskDTO;
+import org.aster.dtos.UpdateStatusDTO;
 import org.aster.services.TaskService;
 
 import jakarta.inject.Inject;
@@ -51,9 +52,11 @@ public class TaskController {
 
     @PUT
     @Path("/updateTaskStatus")
-    public Response updateTaskStatus(@QueryParam("id") Long id, @QueryParam("newStatus") String newStatus) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateTaskStatus(UpdateStatusDTO request) {
         try {
-            taskService.updateTaskStatus(id, newStatus);
+            taskService.updateTaskStatus(request.getId(), request.getNewStatus());
 
             String message = "Task status has been updated!";
             return Response.status(Response.Status.OK)

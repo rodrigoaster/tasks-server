@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -34,6 +35,9 @@ public class Task extends PanacheEntity {
 
     @Enumerated(EnumType.STRING)
     private DayOfWeek day;
+
+    @Column(name = "deadline")
+    private LocalDateTime deadline;
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp

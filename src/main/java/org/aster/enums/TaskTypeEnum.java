@@ -9,11 +9,13 @@ import java.util.List;
 public enum TaskTypeEnum {
     STUDY("STUDY"),
     WORK("WORK"),
-    EXERCISE("EXERCISE"),
+    GYM("GYM"),
     HYDRATION("HYDRATION"),
+    READ("READ"),
     MEAL("MEAL"),
     HOBBY("HOBBY"),
-    SLEEP("SLEEP");
+    SLEEP("SLEEP"),
+    PERSONAL("PERSONAL");
 
     private final String taskTypeValue;
 
