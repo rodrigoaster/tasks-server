@@ -1,78 +1,173 @@
-# tasks-server
+# 📌 Backend – Task Organizer API
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+API desenvolvida com Quarkus para gerenciar tarefas semanais, deadlines, status e justificativas de cancelamento.
+Este back-end integra com o aplicativo Flutter e fornece os serviços essenciais para CRUD, filtros e lógica de deadline.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## 🚀 Tecnologias Utilizadas
 
-## Running the application in dev mode
+Quarkus 3+
 
-You can run your application in dev mode that enables live coding using:
+Java 17+
 
-```shell script
+PostgreSQL
+
+Hibernate ORM + Panache
+
+RESTEasy Reactive
+
+Jakarta REST API
+
+Lombok (opcional)
+
+Docker (opcional)
+
+## 📁 Estrutura do Projeto
+```css
+src/main/java/com/tasks
+│
+├── controllers/       → Endpoints REST
+├── services/          → Regras de negócio
+├── repositories/      → Panache (queries)
+├── entities/          → Entidades JPA
+├── dtos/              → Objetos de entrada e saída
+└── utils/             → Verificações e helpers (ex: DeadlineUtils)
+```
+
+## 🗄️ Configuração do Banco (application.properties)
+```properties
+quarkus.datasource.db-kind=postgresql
+quarkus.datasource.username=postgres
+quarkus.datasource.password=postgres
+quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/tasks
+quarkus.hibernate-orm.database.generation=update
+quarkus.hibernate-orm.log.sql=true
+```
+## 🔌 Endpoints
+### 📍 Criar Task
+```json
+POST /tasks
+
+Request Body
+
+{
+  "name": "Estudar Flutter",
+  "description": "Revisar lista de widgets",
+  "type": "Estudo",
+  "day": "Segunda",
+  "deadline": "2025-01-10T18:00:00",
+  "userId": 1
+}
+```
+### 📍 Listar Tasks por Dia
+```json
+GET /tasks/day/{index}
+→ 0 = Domingo, 6 = Sábado
+```
+### 📍 Atualizar Status
+```json
+PUT /tasks/updateTaskStatus
+
+Body
+
+{
+  "status": "Concluída"
+}
+```
+
+## Status possíveis:
+```java
+"Criada"
+
+"Em progresso"
+
+"Bloqueada"
+
+"Concluída"
+
+"Cancelada"
+```
+
+## Próximas features
+
+## 📍 Registrar Justificativa (cancelamento por deadline)
+```json
+PUT /tasks/{id}/cancel
+
+Body
+
+{
+  "reason": "Não tive tempo suficiente"
+}
+```
+## ⏰ Deadline Checker – Lógica Interna
+
+### O backend possui suporte para:
+
+1. Validar deadlines
+
+2. Aplicar status automaticamente
+
+3. Receber justificativas
+
+### 🧠 Fluxo de Negócio do Deadline
+
+1. O app consulta a API periodicamente (ou ao abrir o app).
+
+2. Verifica tasks expiradas.
+
+3. O usuário recebe pop-up no Flutter.
+
+Após a escolha:
+
+- Se SIM → API atualiza para Concluída.
+
+- Se NÃO → Flutter envia justificativa → API salva → status vai para Cancelada.
+
+## 🛠️ Rodando o Projeto
+### ▶️ Modo desenvolvimento
+```terminal
 ./mvnw quarkus:dev
 ```
-
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
-
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./mvnw package
+### ▶️ Build nativo (opcional)
+```terminal
+./mvnw package -Pnative
 ```
-
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+### 🐳 Rodar com Docker (feature futura)
+#### Criar imagem:
+```docker
+docker build -t task-organizer-api .
 ```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
+#### Executar:
+```docker
+docker run -p 8080:8080 task-organizer-api
 ```
+## 📝 Entidade Task (exemplo)
+```java
+@Entity
+public class Task extends PanacheEntity {
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+    public String name;
+    public String description;
+    public String type;
+    public String day;
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+    public String status; // Criada, Em progresso, Concluída, Cancelada
+    public LocalDateTime deadline;
+
+    public Integer userId;
+
+    @Column(columnDefinition = "TEXT") // feature futura
+    public String justification;
+}
 ```
+## 🤝 Contribuição
 
-You can then execute your native executable with: `./target/tasks-server-1.0.0-SNAPSHOT-runner`
+Fork o repositório
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+Crie sua feature branch
 
-## Related Guides
+Abra um Pull Request
 
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code for Hibernate ORM via the active record or the repository pattern
-- JDBC Driver - PostgreSQL ([guide](https://quarkus.io/guides/datasource)): Connect to the PostgreSQL database via JDBC
+## 📄 Licença
 
-## Provided Code
-
-### Hibernate ORM
-
-Create your first JPA entity
-
-[Related guide section...](https://quarkus.io/guides/hibernate-orm)
-
-[Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
-
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+Este projeto está licenciado sob a MIT License.
