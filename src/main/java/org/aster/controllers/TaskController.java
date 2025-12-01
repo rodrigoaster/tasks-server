@@ -1,8 +1,9 @@
 package org.aster.controllers;
 
 import jakarta.ws.rs.*;
+import org.aster.dtos.DeleteTaskRequestDTO;
 import org.aster.dtos.TaskDTO;
-import org.aster.dtos.UpdateStatusDTO;
+import org.aster.dtos.UpdateStatusRequestDTO;
 import org.aster.services.TaskService;
 
 import jakarta.inject.Inject;
@@ -24,12 +25,12 @@ public class TaskController {
         try {
             taskService.createTask(taskDTO);
 
-            String message = String.format("Task '%s' has been successfully created!", taskDTO.getName());
+            String message = String.format("Task '%s' foi criada com sucesso!", taskDTO.getName());
             return Response.status(Response.Status.CREATED)
                 .entity(Collections.singletonMap("result", message))
                 .build();
         } catch (Exception e) {
-            String errorMessage = String.format("An error occurred while creating the task: %s", e.getMessage());
+            String errorMessage = "Um erro ocorreu na tentativa de criar uma nova tarefa, tente novamente mais tarde!";
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(Collections.singletonMap("error", errorMessage))
                 .build();
@@ -54,16 +55,36 @@ public class TaskController {
     @Path("/updateTaskStatus")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateTaskStatus(UpdateStatusDTO request) {
+    public Response updateTaskStatus(UpdateStatusRequestDTO request) {
         try {
             taskService.updateTaskStatus(request.getId(), request.getNewStatus());
 
-            String message = "Task status has been updated!";
+            String message = "Status da tarefa atualizado com sucesso!";
             return Response.status(Response.Status.OK)
                     .entity(Collections.singletonMap("result", message))
                     .build();
         } catch (Exception e) {
-            String errorMessage = String.format("An error occurred while updating the task: %s", e.getMessage());
+            String errorMessage = String.format("Um erro ocorreu ao tentar atualizar o status da tarefa: %s", e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Collections.singletonMap("error", errorMessage))
+                    .build();
+        }
+    }
+
+    @DELETE
+    @Path("/delete")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteTask(DeleteTaskRequestDTO request) {
+        try {
+            taskService.deleteTask(request.getId());
+
+            String message = String.format("Task '%s' foi deletada com sucesso!", request.getTaskName());
+            return Response.status(Response.Status.OK)
+                    .entity(Collections.singletonMap("result", message))
+                    .build();
+        } catch (Exception e) {
+            String errorMessage = "Um erro ocorreu na tentativa de deletar a tarefa, tente novamente mais tarde!";
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(Collections.singletonMap("error", errorMessage))
                     .build();

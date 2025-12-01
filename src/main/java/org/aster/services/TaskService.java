@@ -10,4 +10,5 @@ public interface TaskService {
     List<Task> findAllTasks();
     List<Task> findTasksByDayWeek(String dayWeek);
     void updateTaskStatus(Long id, String newStatus);
+    void deleteTask(Long id);
 }

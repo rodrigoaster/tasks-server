@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -37,7 +38,7 @@ public class Task extends PanacheEntity {
     private DayOfWeek day;
 
     @Column(name = "deadline")
-    private LocalDateTime deadline;
+    private LocalTime deadline;
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp

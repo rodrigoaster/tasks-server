@@ -9,8 +9,7 @@ import org.aster.models.Task;
 import org.aster.repositories.TaskRepository;
 import org.aster.services.TaskService;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import static utils.DayWeekUtils.validateDayOfWeek;
@@ -27,7 +26,7 @@ public class TaskServiceImpl implements TaskService {
         newTask.setDescription(taskDTO.getDescription());
         validateInputTaskType(taskDTO.getType(), newTask);
         newTask.setDay(taskDTO.getDay());
-        if (taskDTO.getDeadline() != null && taskDTO.getDeadline().isBefore(LocalDateTime.now())) {
+        if (taskDTO.getDeadline() != null && taskDTO.getDeadline().isBefore(LocalTime.now())) {
             throw new IllegalArgumentException("Deadline must be in the future.");
         }
         newTask.setDeadline(taskDTO.getDeadline());
@@ -52,8 +51,18 @@ public class TaskServiceImpl implements TaskService {
             throw new NullPointerException("Task not found, please, try again!");
         }
 
-        System.out.println(newStatus);
         taskGot.setStatus(TaskStatusEnum.valueOf(newStatus));
         taskRepository.persist(taskGot);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTask(Long id) {
+        Task taskGot = taskRepository.findById(id);
+        if (taskGot == null) {
+            throw new NullPointerException("Task not found, please, try again!");
+        }
+
+        taskRepository.delete(taskGot);
     }
 }

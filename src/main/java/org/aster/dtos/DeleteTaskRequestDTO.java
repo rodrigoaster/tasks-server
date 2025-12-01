@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateStatusDTO {
-    public Long id;
-    public String newStatus;
+public class DeleteTaskRequestDTO {
+    private Long id;
+    private String taskName;
 }
